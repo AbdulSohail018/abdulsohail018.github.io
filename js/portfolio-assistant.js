@@ -603,7 +603,7 @@
     const root = document.createElement('div');
     root.id = 'portfolio-assistant-root';
     root.innerHTML = `
-      <div id="portfolio-assistant-panel" role="dialog" aria-label="Portfolio assistant" aria-hidden="true">
+      <div id="portfolio-assistant-panel" role="dialog" aria-label="Portfolio assistant" aria-hidden="true" inert>
         <div class="assistant-header">
           <div class="assistant-header-copy">
             <div class="assistant-kicker">Portfolio guide</div>
@@ -648,6 +648,14 @@
     const sendButton = root.querySelector('#portfolio-assistant-send');
     let typingNode = null;
     let hasWelcomed = false;
+    let isProcessing = false;
+
+    function setInteractiveState(isEnabled) {
+      sendButton.disabled = !isEnabled;
+      suggestionList.querySelectorAll('.assistant-suggestion').forEach((button) => {
+        button.disabled = !isEnabled;
+      });
+    }
 
     function addMessage(content, role) {
       const node = document.createElement('div');
@@ -664,8 +672,15 @@
 
     function setOpen(isOpen) {
       root.classList.toggle('is-open', isOpen);
-      panel.setAttribute('aria-hidden', String(!isOpen));
-      launcher.setAttribute('aria-expanded', String(isOpen));
+      if (isOpen) {
+        panel.removeAttribute('aria-hidden');
+        panel.removeAttribute('inert');
+        launcher.setAttribute('aria-expanded', 'true');
+      } else {
+        panel.setAttribute('aria-hidden', 'true');
+        panel.setAttribute('inert', '');
+        launcher.setAttribute('aria-expanded', 'false');
+      }
       if (isOpen) {
         if (!hasWelcomed) {
           addMessage(
@@ -677,7 +692,11 @@
           );
           hasWelcomed = true;
         }
-        window.setTimeout(() => input.focus(), 120);
+        if (!window.matchMedia('(pointer: coarse)').matches) {
+          window.setTimeout(() => input.focus(), 120);
+        }
+      } else {
+        input.blur();
       }
     }
 
@@ -687,17 +706,29 @@
         const button = document.createElement('button');
         button.type = 'button';
         button.className = 'assistant-suggestion';
+        button.dataset.prompt = item.prompt;
         button.innerHTML = `
           <span class="assistant-suggestion-label">${escapeHtml(item.label)}</span>
           <span class="assistant-suggestion-text">${escapeHtml(item.prompt)}</span>
           <span class="assistant-suggestion-arrow" aria-hidden="true">→</span>
         `;
-        button.addEventListener('click', () => {
-          input.value = item.prompt;
-          submitQuery(item.prompt);
-        });
         suggestionList.appendChild(button);
       });
+    }
+
+    function handleSuggestionActivate(event) {
+      const button = event.target.closest('.assistant-suggestion');
+      if (!button || isProcessing) {
+        return;
+      }
+
+      const prompt = button.dataset.prompt;
+      if (!prompt) {
+        return;
+      }
+
+      event.preventDefault();
+      submitQuery(prompt);
     }
 
     function showTyping() {
@@ -717,24 +748,42 @@
 
     function submitQuery(rawQuery) {
       const query = rawQuery.trim();
-      if (!query) {
+      if (!query || isProcessing) {
         return;
       }
 
+      isProcessing = true;
+      setInteractiveState(false);
       addMessage(query, 'user');
       input.value = '';
-      sendButton.disabled = true;
       showTyping();
 
       window.setTimeout(() => {
-        hideTyping();
-        addMessage(buildAnswer(query), 'assistant');
-        sendButton.disabled = false;
-        input.focus();
+        try {
+          hideTyping();
+          addMessage(buildAnswer(query), 'assistant');
+        } catch (error) {
+          hideTyping();
+          addMessage(
+            composeAnswer([
+              block('Something went wrong', '<p class="assistant-note">That question could not be processed. Please try again or type a shorter question.</p>'),
+            ]),
+            'assistant'
+          );
+        } finally {
+          isProcessing = false;
+          setInteractiveState(true);
+          if (!window.matchMedia('(pointer: coarse)').matches) {
+            input.focus();
+          }
+        }
       }, 420);
     }
 
-    launcher.addEventListener('click', () => setOpen(!root.classList.contains('is-open')));
+    launcher.addEventListener('click', (event) => {
+      event.stopPropagation();
+      setOpen(!root.classList.contains('is-open'));
+    });
     closeButton.addEventListener('click', () => setOpen(false));
     form.addEventListener('submit', (event) => {
       event.preventDefault();
@@ -753,6 +802,7 @@
     closeButton.addEventListener('mouseleave', () => document.body.classList.remove('hovered'));
     sendButton.addEventListener('mouseenter', () => document.body.classList.add('hovered'));
     sendButton.addEventListener('mouseleave', () => document.body.classList.remove('hovered'));
+    suggestionList.addEventListener('click', handleSuggestionActivate);
     suggestions.addEventListener('mouseover', (event) => {
       if (event.target.closest('.assistant-suggestion')) {
         document.body.classList.add('hovered');
