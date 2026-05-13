@@ -1,0 +1,272 @@
+#portfolio-assistant-root {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 900;
+  font-family: var(--font-body);
+}
+
+#portfolio-assistant-launcher {
+  position: relative;
+  width: 3.75rem;
+  height: 3.75rem;
+  border: 1px solid var(--border2);
+  border-radius: 50%;
+  background: linear-gradient(145deg, rgba(0, 212, 255, 0.18), rgba(124, 58, 237, 0.22));
+  color: var(--bright);
+  box-shadow: 0 12px 40px rgba(0, 212, 255, 0.18);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+}
+
+#portfolio-assistant-launcher:hover {
+  transform: translateY(-2px);
+  border-color: var(--cyan);
+  box-shadow: 0 16px 48px rgba(0, 212, 255, 0.28);
+}
+
+#portfolio-assistant-launcher svg {
+  width: 1.35rem;
+  height: 1.35rem;
+  fill: currentColor;
+}
+
+#portfolio-assistant-launcher::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 212, 255, 0.35);
+  animation: assistant-pulse 2.4s ease-out infinite;
+}
+
+@keyframes assistant-pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+
+#portfolio-assistant-panel {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 0.9rem);
+  width: min(24rem, calc(100vw - 2rem));
+  height: min(34rem, calc(100vh - 6rem));
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border2);
+  border-radius: 1.25rem;
+  background: rgba(6, 12, 24, 0.92);
+  backdrop-filter: blur(24px);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px) scale(0.98);
+  transition: opacity 0.25s, transform 0.25s, visibility 0.25s;
+}
+
+#portfolio-assistant-root.is-open #portfolio-assistant-panel {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+#portfolio-assistant-root.is-open #portfolio-assistant-launcher {
+  transform: scale(0.96);
+}
+
+.assistant-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem 1rem 0.85rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.assistant-header-copy {
+  min-width: 0;
+}
+
+.assistant-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+.assistant-title {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--bright);
+  margin-top: 0.2rem;
+}
+
+.assistant-subtitle {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 0.2rem;
+}
+
+.assistant-close {
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--border);
+  border-radius: 0.65rem;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.assistant-close:hover {
+  border-color: var(--border2);
+  color: var(--cyan);
+}
+
+.assistant-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.assistant-message {
+  max-width: 92%;
+  padding: 0.8rem 0.95rem;
+  border-radius: 1rem;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.assistant-message.assistant {
+  align-self: flex-start;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.assistant-message.user {
+  align-self: flex-end;
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.18), rgba(124, 58, 237, 0.22));
+  border: 1px solid rgba(0, 212, 255, 0.25);
+  color: var(--bright);
+}
+
+.assistant-message.typing {
+  width: fit-content;
+  display: inline-flex;
+  gap: 0.35rem;
+}
+
+.assistant-message.typing span {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--cyan);
+  opacity: 0.35;
+  animation: assistant-typing 1.1s infinite;
+}
+
+.assistant-message.typing span:nth-child(2) { animation-delay: 0.15s; }
+.assistant-message.typing span:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes assistant-typing {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.35; }
+  40% { transform: translateY(-3px); opacity: 1; }
+}
+
+.assistant-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  padding: 0 1rem 0.75rem;
+}
+
+.assistant-suggestion {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  padding: 0.45rem 0.7rem;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, transform 0.2s;
+}
+
+.assistant-suggestion:hover {
+  border-color: var(--border2);
+  color: var(--cyan);
+  transform: translateY(-1px);
+}
+
+.assistant-form {
+  display: flex;
+  gap: 0.55rem;
+  padding: 0.85rem 1rem 1rem;
+  border-top: 1px solid var(--border);
+}
+
+#portfolio-assistant-input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 0.85rem;
+  background: rgba(2, 4, 10, 0.75);
+  color: var(--bright);
+  font-family: var(--font-body);
+  font-size: 0.86rem;
+  padding: 0.75rem 0.9rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#portfolio-assistant-input::placeholder {
+  color: var(--muted);
+}
+
+#portfolio-assistant-input:focus {
+  border-color: var(--border2);
+  box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.08);
+}
+
+#portfolio-assistant-send {
+  width: 2.75rem;
+  border: 1px solid var(--border2);
+  border-radius: 0.85rem;
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(124, 58, 237, 0.24));
+  color: var(--bright);
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+#portfolio-assistant-send:hover {
+  transform: translateY(-1px);
+  border-color: var(--cyan);
+}
+
+#portfolio-assistant-send:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 900px) {
+  #portfolio-assistant-root {
+    right: 1rem;
+    bottom: 1rem;
+  }
+
+  #portfolio-assistant-panel {
+    width: min(22rem, calc(100vw - 1.5rem));
+    height: min(32rem, calc(100vh - 5rem));
+  }
+}

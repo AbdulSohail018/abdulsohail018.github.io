@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Abdul Sohail Ahmed — Engineer & Data Architect</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/portfolio-assistant.css">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -1437,7 +1438,7 @@ function animRing() {
 }
 animRing();
 
-document.querySelectorAll('a, button, .proj-card, .clink, .sbubble, .etag, .hchip').forEach(el => {
+document.querySelectorAll('a, button, .proj-card, .clink, .sbubble, .etag, .hchip, #portfolio-assistant-launcher, #portfolio-assistant-send, .assistant-close, .assistant-suggestion').forEach(el => {
   el.addEventListener('mouseenter', () => document.body.classList.add('hovered'));
   el.addEventListener('mouseleave', () => document.body.classList.remove('hovered'));
 });
@@ -1617,5 +1618,6 @@ const heroObserver = new IntersectionObserver(entries => {
 const heroStats = document.querySelector('.hero-stats');
 if (heroStats) heroObserver.observe(heroStats);
 </script>
+<script src="js/portfolio-assistant.js"></script>
 </body>
 </html>
