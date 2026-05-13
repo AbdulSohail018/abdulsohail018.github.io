@@ -8,22 +8,10 @@
   ]);
 
   const SUGGESTIONS = [
-    {
-      label: 'Role fit',
-      prompt: 'Would Abdul be suitable for a data scientist role?',
-    },
-    {
-      label: 'Skills',
-      prompt: 'Analyze his strongest skills',
-    },
-    {
-      label: 'Compare roles',
-      prompt: 'Is he a better fit for data engineering or software development?',
-    },
-    {
-      label: 'Contact',
-      prompt: 'How can I contact him?',
-    },
+    'Would Abdul be suitable for a data scientist role?',
+    'Analyze his strongest skills',
+    'Is he a better fit for data engineering or software development?',
+    'How can I contact him?',
   ];
 
   const KNOWLEDGE = [
@@ -614,10 +602,7 @@
         </div>
         <div class="assistant-messages" aria-live="polite"></div>
         <div class="assistant-suggestions">
-          <div class="assistant-suggestions-head">
-            <span class="assistant-suggestions-title">Suggested questions</span>
-            <span class="assistant-suggestions-note">Tap to ask</span>
-          </div>
+          <div class="assistant-suggestions-title">Suggested questions</div>
           <div class="assistant-suggestion-list"></div>
         </div>
         <form class="assistant-form" action="#" method="post" novalidate>
@@ -684,7 +669,6 @@
           addMessage(
             composeAnswer([
               block('Welcome', '<p>I can answer questions about Abdul\'s background and assess role fit using only this portfolio.</p>'),
-              block('Suggested questions', '<p class="assistant-note">Use the prompts below to get started quickly.</p>'),
             ]),
             'assistant'
           );
@@ -700,25 +684,20 @@
 
     function renderSuggestions() {
       suggestionList.innerHTML = '';
-      SUGGESTIONS.forEach((item) => {
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.className = 'assistant-suggestion';
-        button.dataset.prompt = item.prompt;
-        button.innerHTML = `
-          <span class="assistant-suggestion-label">${escapeHtml(item.label)}</span>
-          <span class="assistant-suggestion-text">${escapeHtml(item.prompt)}</span>
-          <span class="assistant-suggestion-arrow" aria-hidden="true">→</span>
-        `;
-        button.addEventListener('click', (event) => {
+      SUGGESTIONS.forEach((prompt) => {
+        const item = document.createElement('button');
+        item.type = 'button';
+        item.className = 'assistant-suggestion';
+        item.textContent = prompt;
+        item.addEventListener('click', (event) => {
           event.preventDefault();
           event.stopPropagation();
           if (isProcessing) {
             return;
           }
-          submitQuery(item.prompt);
+          submitQuery(prompt);
         });
-        suggestionList.appendChild(button);
+        suggestionList.appendChild(item);
       });
     }
 
