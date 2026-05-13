@@ -620,7 +620,7 @@
           </div>
           <div class="assistant-suggestion-list"></div>
         </div>
-        <form class="assistant-form">
+        <form class="assistant-form" action="#" method="post" novalidate>
           <input id="portfolio-assistant-input" type="text" maxlength="320" autocomplete="off" placeholder="Ask about roles, skills, experience, or projects" />
           <button id="portfolio-assistant-send" type="submit" aria-label="Send message">→</button>
         </form>
@@ -651,10 +651,8 @@
     let isProcessing = false;
 
     function setInteractiveState(isEnabled) {
+      root.classList.toggle('is-processing', !isEnabled);
       sendButton.disabled = !isEnabled;
-      suggestionList.querySelectorAll('.assistant-suggestion').forEach((button) => {
-        button.disabled = !isEnabled;
-      });
     }
 
     function addMessage(content, role) {
@@ -712,23 +710,16 @@
           <span class="assistant-suggestion-text">${escapeHtml(item.prompt)}</span>
           <span class="assistant-suggestion-arrow" aria-hidden="true">→</span>
         `;
+        button.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          if (isProcessing) {
+            return;
+          }
+          submitQuery(item.prompt);
+        });
         suggestionList.appendChild(button);
       });
-    }
-
-    function handleSuggestionActivate(event) {
-      const button = event.target.closest('.assistant-suggestion');
-      if (!button || isProcessing) {
-        return;
-      }
-
-      const prompt = button.dataset.prompt;
-      if (!prompt) {
-        return;
-      }
-
-      event.preventDefault();
-      submitQuery(prompt);
     }
 
     function showTyping() {
@@ -781,12 +772,23 @@
     }
 
     launcher.addEventListener('click', (event) => {
+      event.preventDefault();
       event.stopPropagation();
-      setOpen(!root.classList.contains('is-open'));
+      if (!root.classList.contains('is-open')) {
+        setOpen(true);
+      }
     });
-    closeButton.addEventListener('click', () => setOpen(false));
+    panel.addEventListener('click', (event) => {
+      event.stopPropagation();
+    });
+    closeButton.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      setOpen(false);
+    });
     form.addEventListener('submit', (event) => {
       event.preventDefault();
+      event.stopPropagation();
       submitQuery(input.value);
     });
 
@@ -802,7 +804,6 @@
     closeButton.addEventListener('mouseleave', () => document.body.classList.remove('hovered'));
     sendButton.addEventListener('mouseenter', () => document.body.classList.add('hovered'));
     sendButton.addEventListener('mouseleave', () => document.body.classList.remove('hovered'));
-    suggestionList.addEventListener('click', handleSuggestionActivate);
     suggestions.addEventListener('mouseover', (event) => {
       if (event.target.closest('.assistant-suggestion')) {
         document.body.classList.add('hovered');
