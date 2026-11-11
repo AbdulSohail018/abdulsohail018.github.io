@@ -93,6 +93,50 @@
       ],
     },
     {
+      id: 'pitwall',
+      title: 'PitWall',
+      tags: ['pitwall', 'f1', 'formula 1', 'formula one', 'racing', 'sports', 'duckdb', 'streamlit', 'pipeline', 'github actions', 'data engineering', 'project'],
+      summary: 'PitWall is a live Formula 1 race intelligence pipeline and dashboard.',
+      details: [
+        'A daily GitHub Actions pipeline pulls timing, tyre, pit-stop and results data from the OpenF1 and Jolpica-F1 APIs.',
+        'Data lands in a tested DuckDB warehouse: raw parquet, 12 staging models and 15 marts, with 9 SQL data tests that block publishing on failure.',
+        'Covers 13 seasons and 271 Grands Prix; a six-page Streamlit dashboard is live at pitwall-live.streamlit.app.',
+      ],
+    },
+    {
+      id: 'reviewpilot',
+      title: 'ReviewPilot',
+      tags: ['reviewpilot', 'code review', 'pull request', 'pr', 'agent', 'langgraph', 'github action', 'llm', 'ai', 'evals', 'project'],
+      summary: 'ReviewPilot is an AI pull-request reviewer that verifies its own comments before posting.',
+      details: [
+        'LangGraph agent that runs as a GitHub Action: planner, tool-using investigator, grounding check and skeptic pass.',
+        'Tools read code, search callers, run the project tests and linter, all sandboxed and read-only.',
+        'On a 24-PR offline benchmark, the full harness reached 100% precision and 89% recall versus 15% precision for a single pass.',
+      ],
+    },
+    {
+      id: 'claimlens',
+      title: 'ClaimLens',
+      tags: ['claimlens', 'healthcare', 'claims', 'medicare', 'cms', 'payment integrity', 'upcoding', 'pmpm', 'duckdb', 'analytics', 'project'],
+      summary: 'ClaimLens is a healthcare claims analytics and payment-integrity warehouse.',
+      details: [
+        'Tested DuckDB warehouse on CMS synthetic Medicare claims, benchmarked against real 2024 Medicare data.',
+        'Computes PMPM, utilization per 1,000, readmissions, chronic-condition burden, pharmacy and quality measures.',
+        'An overdispersion-corrected E/M upcoding screen across 493,270 real providers flagged $241.1M in excess payments for review.',
+      ],
+    },
+    {
+      id: 'harnesslab',
+      title: 'HarnessLab',
+      tags: ['harnesslab', 'harness', 'agent', 'langgraph', 'human in the loop', 'guardrails', 'evals', 'fastapi', 'docker', 'llm', 'ai', 'project'],
+      summary: 'HarnessLab is a configurable LangGraph agent harness with a built-in eval suite.',
+      details: [
+        'Planner, executor and critic graph with human-in-the-loop approval for risky tools and resumable SQLite-checkpointed runs.',
+        'Guardrails for tool calls, token budget and revisions; swappable Anthropic, OpenAI, Ollama or offline mock models.',
+        'Eval suite of 25 tasks across 4 configs shows the planner and critic lift offline task success from 60% to 100%.',
+      ],
+    },
+    {
       id: 'lexllm',
       title: 'LexLLM',
       tags: ['lexllm', 'legal', 'ai', 'nlp', 'gpt', 'gemini', 'llama', 'mixtral', 'rag', 'langchain', 'project'],
@@ -328,7 +372,7 @@
   const SKILL_ANALYSIS_PATTERN = /\b(analyz|analysis|assess|assessment|breakdown|evaluate|review|strongest|top skills|skill profile|skill set)\b/;
   const CONTACT_PATTERN = /\b(email|phone|contact|linkedin|github|reach|message|call)\b/;
   const EDUCATION_PATTERN = /\b(education|school|university|degree|gpa|sjsu|vit|college)\b/;
-  const PROJECT_PATTERN = /\b(project|lexllm|p2p|vtuber|portfolio work|built)\b/;
+  const PROJECT_PATTERN = /\b(project|pitwall|reviewpilot|claimlens|harnesslab|lexllm|p2p|vtuber|portfolio work|built)\b/;
   const EXPERIENCE_PATTERN = /\b(experience|work history|worked at|job history|career|company|employer|intern|walmart|flix|stackgen|deloitte|happiest minds)\b/;
 
   function escapeHtml(value) {
@@ -497,7 +541,7 @@
   }
 
   function buildProjectAnswer() {
-    const projectEntries = KNOWLEDGE.filter((entry) => ['lexllm', 'p2p', 'vtuber'].includes(entry.id));
+    const projectEntries = KNOWLEDGE.filter((entry) => ['pitwall', 'reviewpilot', 'claimlens', 'harnesslab', 'lexllm', 'p2p', 'vtuber'].includes(entry.id));
     return buildKnowledgeAnswer(projectEntries, 'Projects');
   }
 

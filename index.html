@@ -649,6 +649,24 @@ nav {
   flex-wrap: wrap;
   gap: 0.35rem;
 }
+.proj-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.25rem;
+  position: relative;
+  z-index: 1;
+}
+.proj-links a {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--cyan);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+.proj-links a:hover { border-bottom-color: var(--cyan); }
 
 /* ═══════════════════════════════
    SKILLS
@@ -1206,7 +1224,76 @@ footer span { color: var(--cyan); }
     <div class="projects-grid">
 
       <div class="proj-card">
-        <div class="proj-num">01 · AI/NLP</div>
+        <div class="proj-num">01 · Data Eng/Sports</div>
+        <div class="proj-title">PitWall — Live F1 Race Intelligence</div>
+        <p class="proj-desc">Daily GitHub Actions pipeline pulling lap, tyre, pit-stop and results data from the OpenF1 and Jolpica-F1 APIs into a tested DuckDB warehouse (12 staging models → 15 marts). A six-page Streamlit dashboard covers title maths, fuel-corrected tyre degradation, race pace and teammate head-to-heads.</p>
+        <div class="proj-metrics">
+          <span class="proj-metric">13 seasons · 271 GPs</span>
+          <span class="proj-metric">~25k timed laps</span>
+          <span class="proj-metric">9 data tests gate publish</span>
+        </div>
+        <div class="proj-stack">
+          <span class="etag">Python</span><span class="etag">DuckDB</span><span class="etag">SQL</span><span class="etag">Streamlit</span><span class="etag">GitHub Actions</span>
+        </div>
+        <div class="proj-links">
+          <a href="https://pitwall-live.streamlit.app" target="_blank" rel="noopener">Live demo ↗</a>
+          <a href="https://github.com/AbdulSohail018/pitwall" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-num">02 · AI Agents/DevTools</div>
+        <div class="proj-title">ReviewPilot — Self-Verifying AI PR Reviewer</div>
+        <p class="proj-desc">LangGraph agent shipped as a GitHub Action. It plans the review, investigates with real tools (reads code, searches callers, runs tests and linters), then filters every comment through a deterministic grounding check and a skeptic pass. Includes prompt-injection defence and sandboxed tools.</p>
+        <div class="proj-metrics">
+          <span class="proj-metric">15% → 100% precision</span>
+          <span class="proj-metric">89% recall</span>
+          <span class="proj-metric">24-PR benchmark</span>
+        </div>
+        <div class="proj-stack">
+          <span class="etag">LangGraph</span><span class="etag">Python</span><span class="etag">GitHub Actions</span><span class="etag">Claude API</span><span class="etag">Evals</span>
+        </div>
+        <div class="proj-links">
+          <a href="https://github.com/AbdulSohail018/reviewpilot/pull/1" target="_blank" rel="noopener">See it live ↗</a>
+          <a href="https://github.com/AbdulSohail018/reviewpilot" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-num">03 · Healthcare Analytics</div>
+        <div class="proj-title">ClaimLens — Claims Analytics & Payment Integrity</div>
+        <p class="proj-desc">Tested DuckDB claims warehouse on CMS synthetic Medicare claims, benchmarked against real 2024 Medicare data. Computes PMPM, utilization per 1,000, readmissions, chronic-condition burden and quality measures, plus an overdispersion-corrected E/M upcoding screen across all US Medicare providers.</p>
+        <div class="proj-metrics">
+          <span class="proj-metric">493,270 providers screened</span>
+          <span class="proj-metric">$241.1M excess flagged</span>
+        </div>
+        <div class="proj-stack">
+          <span class="etag">DuckDB</span><span class="etag">SQL</span><span class="etag">Python</span><span class="etag">Streamlit</span><span class="etag">CMS Data</span>
+        </div>
+        <div class="proj-links">
+          <a href="https://claimlens-analytics.streamlit.app" target="_blank" rel="noopener">Live demo ↗</a>
+          <a href="https://github.com/AbdulSohail018/claimlens" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-num">04 · AI Agents/Evals</div>
+        <div class="proj-title">HarnessLab — Configurable Agent Harness</div>
+        <p class="proj-desc">LangGraph planner → executor → critic agent with human-in-the-loop approval for risky tools, resumable SQLite-checkpointed runs, guardrails and swappable models (Anthropic, OpenAI, Ollama). A built-in eval suite measures what each harness component adds. FastAPI + Streamlit, Dockerized.</p>
+        <div class="proj-metrics">
+          <span class="proj-metric">60% → 100% task success</span>
+          <span class="proj-metric">25 tasks × 4 configs</span>
+        </div>
+        <div class="proj-stack">
+          <span class="etag">LangGraph</span><span class="etag">FastAPI</span><span class="etag">Streamlit</span><span class="etag">Docker</span><span class="etag">Langfuse</span>
+        </div>
+        <div class="proj-links">
+          <a href="https://github.com/AbdulSohail018/harnesslab" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-num">05 · AI/NLP</div>
         <div class="proj-title">LexLLM — AI Legal Assistant</div>
         <p class="proj-desc">Multi-model legal AI leveraging GPT-4o, Gemini 1.5, Llama 3.1 & Mixtral 8x7b with RAG pipelines over a 52 GB knowledge base of 10,236 legal documents. Validated via OpenAI Evals and human review.</p>
         <div class="proj-metrics">
@@ -1219,7 +1306,7 @@ footer span { color: var(--cyan); }
       </div>
 
       <div class="proj-card">
-        <div class="proj-num">02 · ML/Finance</div>
+        <div class="proj-num">06 · ML/Finance</div>
         <div class="proj-title">P2P Lending Risk Prediction</div>
         <p class="proj-desc">Ensemble model (Stacking XGBoost + Random Forest) with SMOTE handling 1:10 class imbalance for peer-to-peer lending default prediction. Achieved industry-leading accuracy with LightGBM pipeline.</p>
         <div class="proj-metrics">
@@ -1232,7 +1319,7 @@ footer span { color: var(--cyan); }
       </div>
 
       <div class="proj-card">
-        <div class="proj-num">03 · Analytics/.NET</div>
+        <div class="proj-num">07 · Analytics/.NET</div>
         <div class="proj-title">VTuber Stream Analytics</div>
         <p class="proj-desc">Full-stack analytics platform with Azure data orchestration and Power BI dashboards. Built .NET website with Google OAuth SSO serving 1,000+ users, boosting content trend visibility and engagement.</p>
         <div class="proj-metrics">
