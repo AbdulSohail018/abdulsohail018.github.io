@@ -40,12 +40,12 @@
     {
       id: 'walmart',
       title: 'Walmart',
-      tags: ['walmart', 'current', 'present', 'software engineer', 'spring boot', 'cassandra', 'microservices', 'rest', 'soa', 'j2ee', 'tracy'],
-      summary: 'Software Engineer at Walmart, Oct 2025 to Present, Tracy, CA.',
+      tags: ['walmart', 'software engineer', 'spring boot', 'cassandra', 'microservices', 'rest', 'soa', 'j2ee', 'tracy'],
+      summary: 'Software Engineer at Walmart, Oct 2025 to Oct 2026, Tracy, CA.',
       details: [
-        'Builds production REST APIs with J2EE and Spring Boot in a service-oriented architecture.',
-        'Supports distributed microservices handling 10M+ daily transactions.',
-        'Works with Apache Cassandra, CI/CD, JUnit, and Mockito.',
+        'Built production REST APIs with J2EE and Spring Boot in a service-oriented architecture.',
+        'Supported distributed microservices handling 10M+ daily transactions.',
+        'Worked with Apache Cassandra, CI/CD, JUnit, and Mockito.',
       ],
     },
     {
@@ -251,9 +251,9 @@
       verdict: 'Strong fit',
       verdictClass: 'strong',
       score: 95,
-      summary: 'Abdul is currently a Software Engineer at Walmart and has production backend, API, and microservices experience.',
+      summary: 'Abdul was a Software Engineer at Walmart (Oct 2025 to Oct 2026) and has production backend, API, and microservices experience.',
       reasons: [
-        'Current Software Engineer role at Walmart with Spring Boot, REST APIs, and microservices.',
+        'Software Engineer role at Walmart (Oct 2025 to Oct 2026) with Spring Boot, REST APIs, and microservices.',
         'Production engineering work on systems handling 10M+ daily transactions.',
         'Experience with CI/CD, testing, service boundaries, and distributed systems.',
       ],
@@ -287,7 +287,7 @@
       score: 93,
       summary: 'Abdul has strong backend credentials through Walmart microservices work and API-heavy internships.',
       reasons: [
-        'Builds production REST APIs and event-driven microservices at Walmart.',
+        'Built production REST APIs and event-driven microservices at Walmart.',
         'Uses Spring Boot, J2EE, Cassandra, and service-oriented architecture patterns.',
         'Has shipped API-backed systems in Docker and Kubernetes at StackGen.',
       ],
@@ -499,7 +499,7 @@
       block('Role fit overview', '<p class="assistant-lead">Here is how Abdul maps to common roles based on this portfolio.</p>'),
       block('Best matches', list(overviewItems)),
       block('Strongest areas', list([
-        'Software development and backend engineering through current Walmart microservices work.',
+        'Software development and backend engineering through Walmart microservices work.',
         'Data engineering through StackGen, Flix, and cloud pipeline experience.',
         'Analytics and BI through Deloitte, Flix, and dashboard-heavy project work.',
         'Applied AI and ML systems through StackGen, LexLLM, and ML projects.',
